@@ -6,11 +6,13 @@ import { UserType } from '../entities/user-type.entity';
 
 @Injectable()
 export class UserTypeService {
+  // El constructor recibe una instancia de Repository para interactuar con la base de datos
   constructor(
     @InjectRepository(UserType)
     private readonly userTypeRepository: Repository<UserType>,
   ) {}
 
+  // La función seedUserTypes se encarga de insertar datos de ejemplo en la base de datos para la entidad UserType.
   async seedUserTypes() {
     const userTypes = [
       {  name: 'Administrador', description: 'Usuario con permisos totales' },
@@ -20,6 +22,7 @@ export class UserTypeService {
       },
       { name: 'Soldador', description: 'Acceso limitado a las juntas asignadas' },
       { name: 'Inspector', description: 'Acceso a las juntas asignadas para realizar inspecciones' },
+      { name: 'Operador', description: 'Acceso a las juntas, materiales,asignadas para realizar operaciones de mantenimiento ' },
     ];
 
     // Use the injected repository instance
