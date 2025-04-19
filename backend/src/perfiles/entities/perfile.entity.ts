@@ -34,8 +34,8 @@ import {
   @Column({ name: 'password', length: 35, nullable: false })
   password: string;
 
-  @OneToOne( () => Usuario, (user) => user.perfiles) //1- Cual es la entidad de la relacion:() => Usuario -2 Cual campo de la tabla user tiene la relacion?(user) => user.perfiles
-  usuario: Usuario
+  //@OneToOne( () => Usuario, (user) => user.perfiles) //1- Cual es la entidad de la relacion:() => Usuario -2 Cual campo de la tabla user tiene la relacion?(user) => user.perfiles
+  //usuario: Usuario
 
 
   @CreateDateColumn({ name: 'create_at' })

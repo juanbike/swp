@@ -3,27 +3,31 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { Usuario } from './entities/usuario.entity';
+//import { CreateUsuarioDto } from './dto/create-usuario.dto';
+//import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Controller('api/usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  // Creamos un usuario
+  // Crear un nuevo usuario
   @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
+  async create(
+    @Body() userData: Partial<Usuario>,
+    @Body('userTypeId') userTypeId: number,
+  ): Promise<Usuario> {
+    return this.usuariosService.create(userData, userTypeId);
   }
 
-  // Recuperamos todos los usuarios
+  // Obtener todos los usuarios con sus tipos de usuario
   @Get()
-  findAll() {
+  async findAll(): Promise<Usuario[]> {
     return this.usuariosService.findAll();
   }
 
@@ -34,16 +38,18 @@ export class UsuariosController {
     return this.usuariosService.findById(+id);
   }
 
-  //Actualizamos un usuario por su id
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuariosService.update(+id, updateUsuarioDto);
+  // Actualizar un usuario
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() userData: Partial<Usuario>,
+  ): Promise<Usuario> {
+    return this.usuariosService.update(id, userData);
   }
 
-  //Eliminamos un usuario or su id
-
+  // Eliminar un usuario
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usuariosService.remove(+id);
+  async delete(@Param('id') id: number): Promise<void> {
+    return this.usuariosService.delete(id);
   }
 }

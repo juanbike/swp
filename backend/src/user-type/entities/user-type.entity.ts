@@ -5,12 +5,12 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   CreateDateColumn,
-  ManyToOne,
   OneToMany,
   Index,
 } from 'typeorm';
 
 import { IsString, IsOptional, Length } from 'class-validator';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 /**
  * Entidad que representa un tipo de usuario.
  * @property {number} id - Identificador único del tipo de usuario.
@@ -27,6 +27,7 @@ export class UserType {
   @PrimaryGeneratedColumn()
   id: number;
 
+  // Cambié el nombre de la propiedad a "name" para que sea más descriptivo y fácil de entender.
   @Column({ unique: true })
   @Index() // Agrega un índice a la columna
   @IsString()
@@ -35,42 +36,16 @@ export class UserType {
   //Si la columna name es frecuentemente consultada o filtrada, considera agregar un índice para mejorar el rendimiento de las consultas:
   name: string;
 
+  // Agrega una descripción opcional para el tipo de usuario.
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
   description?: string;
 
-  //Los nombres userType y users pueden ser confusos porque ambos están relacionados con la misma entidad (UserType). Considera usar nombres más específicos para evitar ambigüedades. Por ejemplo:
+  // Relación uno a muchos: Un tipo de usuario puede tener muchos usuarios
+  @OneToMany(() => Usuario, (user) => user.userType)
+  users: Usuario[];
 
-  @ManyToOne(() => UserType, (parentType) => parentType.children)
-  parentType: UserType;
-
-  // Define una relación muchos a uno (ManyToOne) entre UserType y sí misma.
-
-  // Esto significa que cada UserType puede tener un tipo de usuario padre (userType).
-  // La relación es bidireccional, lo que significa que puedes acceder a los usuarios
-  // asociados a un tipo de usuario a través de la propiedad 'users'.
-  //
-  // Por ejemplo, si tienes un tipo de usuario "Administrador", puedes tener varios
-  // tipos de usuario "Gerente" que dependen del "Administrador".
-  //
-  //
-  // La propiedad 'userType' en este caso representa el tipo de usuario padre.
-  // La propiedad 'users' representa la colección de tipos de usuario hijos.
-  // La relación es bidireccional, lo que significa que puedes acceder a los usuarios
-  // asociados a un tipo de usuario a través de la propiedad 'users'.
-
-  @OneToMany(() => UserType, (childType) => childType.parentType)
-  children: UserType[];
-
-  // Define una relación uno a muchos (OneToMany) entre UserType y sí misma.
-  // Esto significa que cada UserType puede tener varios tipos de usuario hijos (users).
-  // La propiedad 'userType' en este caso representa el tipo de usuario padre.
-  // La propiedad 'users' representa la colección de tipos de usuario hijos.
-  // La relación es bidireccional, lo que significa que puedes acceder a los usuarios
-  // asociados a un tipo de usuario a través de la propiedad 'users'.
-  // Por ejemplo, si tienes un tipo de usuario "Administrador", puedes tener varios
-  // tipos de usuario "Gerente" que dependen del "Administrador".
   @CreateDateColumn({ name: 'create_at' })
   createdAt: Date;
   @UpdateDateColumn({ name: 'updated_at' })

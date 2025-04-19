@@ -8,7 +8,7 @@ import { InspectoresModule } from './inspectores/inspectores.module';
 import { PaginacionModule } from './paginacion/paginacion.module';
 import { dataSourceOptions } from './db/data-source';
 import { UsuariosModule } from './usuarios/usuarios.module';
-import { PerfilesModule } from './perfiles/perfiles.module';
+//import { PerfilesModule } from './perfiles/perfiles.module';
 import { SoldaduraModule } from './soldadura/soldadura.module';
 import { MaterialesModule } from './materiales/materiales.module';
 import { TsLineaModule } from './ts_linea/ts_linea.module';
@@ -31,7 +31,7 @@ import { UserTypeModule } from './user-type/user-type.module';
     InspectoresModule,
     PaginacionModule,
     UsuariosModule,
-    PerfilesModule,
+    
     SoldaduraModule,
     MaterialesModule,
     TsLineaModule,
